@@ -8,4 +8,4 @@ pip install opencv-python
 C:\> python 
 >>> import cv2 
 >>> print(cv2.__version__) 
-'3.4.0' # your version may be a newer one
+3.4.0  your version may be a newer one
