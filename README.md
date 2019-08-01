@@ -1,12 +1,28 @@
 # Facial-Recognition
-1. Install Via PIP 
+## Modules to Install
+### Install opencv
+```
 pip install opencv-contrib-python --upgrade 
 or without extra modules:  
 pip install opencv-python 
+```
 
-# Test Installation
-2. Test OpenCV Installation 
-C:\> python 
->>> import cv2 
->>> print(cv2.__version__) 
-3.4.0  your version may be a newer one
+### Install cmake
+```
+pip install cmake
+```
+
+### Install dlib
+```
+pip install dlib
+```
+
+### Install numpy
+```
+pip install numpy
+```
+
+### Install face_recognition
+```
+pip install face_recognition
+```
