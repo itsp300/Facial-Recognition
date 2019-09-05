@@ -1,10 +1,10 @@
 import face_recognition as fr
+import base64
 import os
 import cv2
 import face_recognition
 import numpy as np
 from time import sleep
-
 
 def get_encoded_faces():
     """
@@ -34,6 +34,11 @@ def unknown_image_encoded(img):
 
     return encoding
 
+"""
+def from_base64(base64_data):
+    nparr = np.fromstring(base64_data.decode('base64'), np.uint8)
+    return cv2.imdecode(nparr, cv2.IMREAD_ANYCOLOR)
+"""
 
 def classify_face(im):
     """
@@ -77,7 +82,7 @@ def classify_face(im):
             font = cv2.FONT_HERSHEY_DUPLEX
             cv2.putText(img, name, (left -20, bottom + 15), font, 1.0, (255, 255, 255), 2)
 
-
+    print(face_names)
     # Display the resulting image
     while True:
 
@@ -85,7 +90,16 @@ def classify_face(im):
         if cv2.waitKey(1) & 0xFF == ord('q'):
             return face_names 
 
+# Encode the image
+image = open('temp.jpg', 'rb')
+image_read = image.read()
+image_64_encode = base64.encodebytes(image_read)
 
-print(classify_face("test.jpg"))
+#Decode the image into temp image file
+image_64_decode = base64.decodebytes(image_64_encode)
+image_result = open('temp.jpg','wb')
+image_result.write(image_64_decode)
+
+print(classify_face("temp.jpg"))
 
 
