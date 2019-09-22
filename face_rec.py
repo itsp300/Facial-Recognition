@@ -116,8 +116,12 @@ myobj = {'student': 'HC7X5R7M8_Matthew_Davies'}
 
 x = requests.post(url, data = myobj)
 
-#print the response text (the content of the requested file):
-print('test' + x.text)
+if x.status_code == 200:
+    #print the response text (the content of the requested file):
+    print('test' + x.text)
+elif x.status_code == 502:
+    print("502 Error: Can't send data to server.")
+
 
 print(classify_face("temp.jpg"))
 
