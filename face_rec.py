@@ -4,6 +4,7 @@ import os
 import cv2
 import face_recognition
 import numpy as np
+import requests
 from time import sleep
 
 def get_encoded_faces():
@@ -90,15 +91,27 @@ def classify_face(im):
         if cv2.waitKey(1) & 0xFF == ord('q'):
             return face_names 
 
+# Get Request
+response = requests.get('https://8080.imja.red/image')
+req_encode = bytes(response.text, 'utf-8')
+
 # Encode the image
 image = open('temp.jpg', 'rb')
 image_read = image.read()
 image_64_encode = base64.encodebytes(image_read)
 
 #Decode the image into temp image file
-image_64_decode = base64.decodebytes(image_64_encode)
+image_64_decode = base64.decodebytes(req_encode)
 image_result = open('temp.jpg','wb')
 image_result.write(image_64_decode)
+
+url = 'https://8080.imja.red/imageRet'
+myobj = {'student': 'HC7X5R7M8_Matthew_Davies'}
+
+x = requests.post(url, data = myobj)
+
+#print the response text (the content of the requested file):
+print('test' + x.text)
 
 print(classify_face("temp.jpg"))
 
