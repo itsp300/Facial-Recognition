@@ -114,7 +114,7 @@ image_result.write(image_64_decode)
 url = 'https://8080.imja.red/imageRet'
 myobj = {'student': 'HC7X5R7M8_Matthew_Davies'}
 
-x = requests.post(url, data = myobj)
+x = requests.post(url, json = myobj)
 
 if x.status_code == 200:
     #print the response text (the content of the requested file):
