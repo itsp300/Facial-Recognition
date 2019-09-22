@@ -93,12 +93,18 @@ def classify_face(im):
 
 # Get Request
 response = requests.get('https://8080.imja.red/image')
-req_encode = bytes(response.text, 'utf-8')
 
-# Encode the image
-image = open('temp.jpg', 'rb')
-image_read = image.read()
-image_64_encode = base64.encodebytes(image_read)
+if response.status_code == 200:
+    print("Succesful Connection")
+    req_encode = bytes(response.text, 'utf-8')
+elif response.status_code == 502:
+    print("502 Error: Server is offline")
+    print("Loading backup image instead")
+
+    # Encode the image
+    image = open('temp.jpg', 'rb')
+    image_read = image.read()
+    req_encode = base64.encodebytes(image_read)
 
 #Decode the image into temp image file
 image_64_decode = base64.decodebytes(req_encode)
