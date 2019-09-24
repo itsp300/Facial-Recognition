@@ -83,7 +83,18 @@ def classify_face(im):
             font = cv2.FONT_HERSHEY_DUPLEX
             cv2.putText(img, name, (left -20, bottom + 15), font, 1.0, (255, 255, 255), 2)
 
-    print(face_names)
+    print(face_names[0])
+
+    url = 'https://8080.imja.red/imageRet'
+    myobj = {'student': face_names[0]}
+    x = requests.post(url, json = myobj)
+
+    if x.status_code == 200:
+        #print the response text (the content of the requested file):
+        print('test' + x.text)
+    elif x.status_code == 502:
+        print("502 Error: Can't send data to server.")
+    
     # Display the resulting image
     while True:
 
@@ -93,7 +104,6 @@ def classify_face(im):
 
 # Get Request
 response = requests.get('https://8080.imja.red/image')
-
 if response.status_code == 200:
     print("Succesful Connection")
     req_encode = bytes(response.text, 'utf-8')
@@ -111,9 +121,9 @@ image_64_decode = base64.decodebytes(req_encode)
 image_result = open('temp.jpg','wb')
 image_result.write(image_64_decode)
 
+"""
 url = 'https://8080.imja.red/imageRet'
 myobj = {'student': 'HC7X5R7M8_Matthew_Davies'}
-
 x = requests.post(url, json = myobj)
 
 if x.status_code == 200:
@@ -121,7 +131,7 @@ if x.status_code == 200:
     print('test' + x.text)
 elif x.status_code == 502:
     print("502 Error: Can't send data to server.")
-
+"""
 
 print(classify_face("temp.jpg"))
 
