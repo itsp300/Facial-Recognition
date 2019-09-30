@@ -7,6 +7,7 @@ import numpy as np
 import requests
 from time import sleep
 
+
 def get_encoded_faces():
     """
     looks through the faces folder and encodes all
@@ -35,11 +36,6 @@ def unknown_image_encoded(img):
 
     return encoding
 
-"""
-def from_base64(base64_data):
-    nparr = np.fromstring(base64_data.decode('base64'), np.uint8)
-    return cv2.imdecode(nparr, cv2.IMREAD_ANYCOLOR)
-"""
 
 def classify_face(im):
     """
@@ -54,9 +50,9 @@ def classify_face(im):
     known_face_names = list(faces.keys())
 
     img = cv2.imread(im, 1)
-    #img = cv2.resize(img, (0, 0), fx=0.5, fy=0.5)
-    #img = img[:,:,::-1]
- 
+    # img = cv2.resize(img, (0, 0), fx=0.5, fy=0.5)
+    # img = img[:,:,::-1]
+
     face_locations = face_recognition.face_locations(img)
     unknown_face_encodings = face_recognition.face_encodings(img, face_locations)
 
@@ -90,17 +86,18 @@ def classify_face(im):
     x = requests.post(url, json = myobj)
 
     if x.status_code == 200:
-        #print the response text (the content of the requested file):
+        # print the response text (the content of the requested file):
         print('test' + x.text)
     elif x.status_code == 502:
         print("502 Error: Can't send data to server.")
-    
+
     # Display the resulting image
     while True:
 
         cv2.imshow('Video', img)
         if cv2.waitKey(1) & 0xFF == ord('q'):
-            return face_names 
+            return face_names
+
 
 # Get Request
 response = requests.get('https://8080.imja.red/image')
@@ -116,22 +113,11 @@ elif response.status_code == 502:
     image_read = image.read()
     req_encode = base64.encodebytes(image_read)
 
-#Decode the image into temp image file
+
+# Decode the image into temp image file
 image_64_decode = base64.decodebytes(req_encode)
 image_result = open('temp.jpg','wb')
 image_result.write(image_64_decode)
-
-"""
-url = 'https://8080.imja.red/imageRet'
-myobj = {'student': 'HC7X5R7M8_Matthew_Davies'}
-x = requests.post(url, json = myobj)
-
-if x.status_code == 200:
-    #print the response text (the content of the requested file):
-    print('test' + x.text)
-elif x.status_code == 502:
-    print("502 Error: Can't send data to server.")
-"""
 
 print(classify_face("temp.jpg"))
 
