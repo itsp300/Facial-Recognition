@@ -35,7 +35,7 @@ def check():
         # Get Request
         response = requests.get('https://8080.imja.red/image')
         if response.status_code == 200:
-            print("Succesful Connection")
+            print("Successful Connection")
             req_encode = bytes(response.text, 'utf-8')
         elif response.status_code == 502:
             print("502 Error: Server is offline")

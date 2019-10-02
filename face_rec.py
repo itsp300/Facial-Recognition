@@ -85,6 +85,12 @@ def classify_face(im):
     url = 'https://8080.imja.red/imageRet'
     myobj = {'student': face_names[0]}
     x = requests.post(url, json=myobj)
+
+    if x.status_code == 200:
+        # print the response text (the content of the requested file):
+        print('test' + x.text)
+    elif x.status_code == 502:
+        print("502 Error: Can't send data to server.")
 """""
     # Display the resulting image
     while True:
