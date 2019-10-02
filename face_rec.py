@@ -82,9 +82,9 @@ def classify_face(im):
     print(face_names[0])
 
     # Post data to server
-    url = 'http://127.0.0.1:5000/done'
+    url = 'https://8080.imja.red/imageRet'
     myobj = {'student': face_names[0]}
-    x = requests.post(url, json = myobj)
+    x = requests.post(url, json=myobj)
 """""
     # Display the resulting image
     while True:
@@ -110,6 +110,6 @@ def main():
         req_encode = base64.encodebytes(image_read)
     """
 
-    print(classify_face("test.jpg"))
+    classify_face("test.jpg")
 
 main()
