@@ -1,8 +1,12 @@
 import requests
-import base64
 
-# Used this to test because I had no data
-url = 'http://127.0.0.1:5000/check'
-myobj = {'process': 'run'}
-print(myobj)
-x = requests.post(url, json = myobj)
+#http://docs.python-requests.org/en/latest/user/quickstart/#post-a-multipart-encoded-file
+
+url = "http://localhost:5000/faces"
+fin = open('test.jpg', 'rb')
+files = {'file': fin}
+try:
+  r = requests.post(url, files=files)
+  print (r.text)
+finally:
+	fin.close()

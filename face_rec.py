@@ -116,6 +116,7 @@ def main():
         req_encode = base64.encodebytes(image_read)
     """
 
-    classify_face("test.jpg")
+    print(classify_face('test.jpg'))
+
 
 main()

@@ -2,25 +2,16 @@ from picamera import PiCamera
 import time
 import boto3
 
-directory = '' #folder name on your raspberry pi
+directory = 'C:\Users\Br\Documents\GitHub Projects\attendance_facial_recognition\aws' #folder name on your raspberry pi
 
-P=PiCamera()
-P.resolution= (800,600)
-P.start_preview()
-collectionId='' #collection name
+collectionId='faces' #collection name
 
 rek_client=boto3.client('rekognition',
-                        aws_access_key_id='',
-                        aws_secret_access_key='',)
+                        aws_access_key_id='AKIAUMTBC6HNMLK6TQGA',
+                        aws_secret_access_key='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',)
 
 while True:
-
-        #camera warm-up time
-        time.sleep(2)
-        
-        milli = int(round(time.time() * 1000))
-        image = '{}/image_{}.jpg'.format(directory,milli)
-        P.capture(image) #capture an image
+        image = 'test.jpg'
         print('captured '+image)
         with open(image, 'rb') as image:
             try: #match the captured imges against the indexed faces

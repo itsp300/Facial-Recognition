@@ -1,63 +1,39 @@
-from flask import Flask, escape, request, jsonify, render_template, redirect, make_response, abort
 import os
-import base64
-import requests
+from flask import Flask, request, redirect, url_for, send_from_directory
+import werkzeug
+
+UPLOAD_FOLDER = 'faces'
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
-@app.route('/attendances', methods=['GET', 'POST'])
-def post():
-    return str({"subjectAttendances": [{"code": "IT00311", "attendance": 3, "total": 4}, {"code": "ITDA211", "attendance": 1, "total": 5}]})
+def allowed_file(filename):
+  # this has changed from the original example because the original did not work for me
+    return filename[-3:].lower() in ALLOWED_EXTENSIONS
 
 
-@app.route('/echo', methods=['POST'])
-def echo():
-    data = jsonify(request.get_json(force=True))
-    return data
+@app.route('/faces', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            print (file.filename)
+            filename = file.filename
+            file.save(os.path.join(UPLOAD_FOLDER, filename))
 
+            # for browser, add 'redirect' function on top of 'url_for'
+            return url_for('uploaded_file',
+                                    filename=filename)
 
-@app.route('/upload', methods=["GET", "POST"])
-def hello():
-    if request.method == "POST":
-        file = request.files["file"]
-        file.save(os.path.join("faces", file.filename))
-        return "Sucess"
-    return render_template("index.html", message="Upload")
+    import face_rec
+    return "Help Me"
 
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+                               filename)
 
-@app.route('/check', methods=['POST'])
-def check():
-    filecheck = request.get_json()
-    filecheck = filecheck['process']
-
-    if filecheck == 'run':
-        # Get Request
-        response = requests.get('https://8080.imja.red/image')
-        if response.status_code == 200:
-            print("Successful Connection")
-            req_encode = bytes(response.text, 'utf-8')
-        elif response.status_code == 502:
-            print("502 Error: Server is offline")
-            print("Loading backup image instead")
-
-            # Encode the image
-            image = open('temp.jpg', 'rb')
-            image_read = image.read()
-            req_encode = base64.encodebytes(image_read)
-
-    image_64_decode = base64.decodebytes(req_encode)
-    image_result = open('temp.jpg', 'wb')
-    image_result.write(image_64_decode)
-
-    if request.method == "POST":
-        import face_rec
-    return filecheck
-
-
-@app.route('/done', methods=['POST'])
-def postre():
-    print("In")
-    data = request.get_json()
-    print(data)
-    return data
+if __name__ == '__main__':
+	app.run(debug=True)
