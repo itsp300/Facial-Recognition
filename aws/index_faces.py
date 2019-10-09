@@ -2,16 +2,16 @@ import boto3
 
 s3_client = boto3.client(
     's3',
-    aws_access_key_id='AKIAUMTBC6HNMLK6TQGA',
-    aws_secret_access_key='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',
+    aws_access_key_id=''
+    aws_secret_access_key=''
 
 )
 
 collectionId='faces' #collection name
 
 rek_client=boto3.client('rekognition',
-                            aws_access_key_id='AKIAUMTBC6HNMLK6TQGA',
-                            aws_secret_access_key='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',)
+                            aws_access_key_id='',
+                            aws_secret_access_key='',)
 
 
 bucket = 'pihe-faces' #S3 bucket name
