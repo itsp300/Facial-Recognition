@@ -1,0 +1,11 @@
+{
+  "api_path": "imja.red:9001",
+  "identifier": "BGB009",
+  "venue": "A109",
+  "jwt_signature": "ITSP300",
+  "domain": "moodleoauth.imja.red",
+  "audience": "backend.server",
+  "client_id": "ITSP300_FACE_REC_SERVER",
+  "client_secret": "ITSP300_FACE_REC_SERVER_SECRET",
+  "use_ssl" : true
+}

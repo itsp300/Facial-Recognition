@@ -1,29 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="081c56c2-1c13-47d7-bd86-28564e9ae41a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/face_rec.py" beforeDir="false" afterPath="$PROJECT_DIR$/face_rec.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/face_storage/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/face_storage/face_storage/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/face_storage/face_storage/settings.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/face_storage/face_storage/urls.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/face_storage/face_storage/wsgi.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/face_storage/main/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/face_storage/main/admin.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/face_storage/main/apps.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/face_storage/main/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/face_storage/main/migrations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/face_storage/main/models.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/face_storage/main/tests.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/face_storage/main/urls.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/face_storage/main/views.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/face_storage/manage.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/face_storage/media/bradley.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/face_storage/media/bradley_dgn7W2o.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/face_storage/media/dead.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Archive/main.py" afterDir="false" />
-    </list>
+    <list default="true" id="081c56c2-1c13-47d7-bd86-28564e9ae41a" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,8 +45,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/endpoint-face.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="529">
-              <caret line="103" column="31" selection-start-line="103" selection-start-column="31" selection-end-line="103" selection-end-column="31" />
+            <state relative-caret-position="444">
+              <caret line="123" lean-forward="true" selection-start-line="123" selection-end-line="123" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -376,15 +354,15 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Flask server.Flask" />
+      <item itemvalue="Python.client" />
+      <item itemvalue="Python.endpoint-face" />
       <item itemvalue="Python.face_rec" />
       <item itemvalue="Python.main" />
-      <item itemvalue="Python.endpoint-face" />
+      <item itemvalue="Python.server" />
       <item itemvalue="Python.socketClient" />
       <item itemvalue="Python.socketServer" />
-      <item itemvalue="Python.server" />
       <item itemvalue="Python.test" />
-      <item itemvalue="Python.client" />
+      <item itemvalue="Flask server.Flask" />
     </list>
   </component>
   <component name="SvnConfiguration">
@@ -419,12 +397,12 @@
       <workItem from="1570559731687" duration="1866000" />
       <workItem from="1570608520697" duration="8659000" />
       <workItem from="1570703201646" duration="225000" />
-      <workItem from="1570732356343" duration="1130000" />
+      <workItem from="1570732356343" duration="1496000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="86908000" />
+    <option name="totallyTimeSpent" value="87274000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -585,8 +563,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/endpoint-face.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
-          <caret line="103" column="31" selection-start-line="103" selection-start-column="31" selection-end-line="103" selection-end-column="31" />
+        <state relative-caret-position="444">
+          <caret line="123" lean-forward="true" selection-start-line="123" selection-end-line="123" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
           </folding>
