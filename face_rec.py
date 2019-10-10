@@ -99,7 +99,8 @@ def classify_face(im):
         if cv2.waitKey(1) & 0xFF == ord('q'):
             return face_names
 """""
-def main():
+def face():
+    print(" hi")
     # Get Request
     """""
     response = requests.get('https://8080.imja.red/image')
@@ -117,6 +118,3 @@ def main():
     """
 
     print(classify_face('test.jpg'))
-
-
-main()

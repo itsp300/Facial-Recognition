@@ -1,5 +1,6 @@
 import os
 from flask import Flask, request, redirect, url_for, send_from_directory
+from face_rec import face
 import werkzeug
 
 UPLOAD_FOLDER = 'faces'
@@ -27,7 +28,7 @@ def upload_file():
             return url_for('uploaded_file',
                                     filename=filename)
 
-    import face_rec
+    face()
     return "Help Me"
 
 @app.route('/uploads/<filename>')
