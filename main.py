@@ -55,6 +55,7 @@ def face_rec_image(payload: Dict):
 
 
 def main():
+  print("Server Started!")
   # define what message types we want to handle
   communication.register_message_type("auth_timeout", handle_auth_timeout)
 
