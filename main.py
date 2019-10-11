@@ -76,6 +76,8 @@ def face_rec_identify(payload: Dict):
 
 def face_rec_detail(payload: Dict):
     print("Detailed Info")
+
+    id = payload["id"]
     
     communication.request_send_jwt(
         {
