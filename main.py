@@ -76,6 +76,22 @@ def face_rec_identify(payload: Dict):
 
 def face_rec_detail(payload: Dict):
     print("Detailed Info")
+    
+    communication.request_send_jwt(
+        {
+            "type": "face_rec_details",
+            "identified": [
+                {
+                    "person_id": "RJMMLYX21",
+                    "certainty": "56"
+                },
+                {
+                    "person_id": "PR3C56TY",
+                    "certainty": "56"
+                }
+            ]
+        }
+    )
 
 def main():
   print("Server Started!")
