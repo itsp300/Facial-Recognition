@@ -72,12 +72,14 @@ def face_rec_image(payload: Dict):
     )
 
 
+
 def main():
   print("Server Started!")
   # define what message types we want to handle
   communication.register_message_type("auth_timeout", handle_auth_timeout)
-
   communication.register_message_type("face_rec", face_rec_image)
+  communication.register_message_type("face_rec_identifier", face_rec_identify)
+  communication.register_message_type("face_rec_details", face_rec_detail)
 
     # good place to start the facial recognition thread(s), or you could spawn them in the message handlers just above this line
   # start queue thread
