@@ -3,6 +3,8 @@ import communication
 import threading
 import time
 import ssl
+import base64
+import face_recon
 from typing import Dict
 
 
@@ -52,6 +54,14 @@ def handle_auth_timeout(payload):
 def face_rec_image(payload: Dict):
     print("what to do when I receive this message")
     print(payload['image'])
+
+    req_encode = payload['image']
+    # Decode the image into temp image file
+    image_64_decode = base64.decodebytes(req_encode)
+    image_result = open('testDrive.jpg', 'wb')
+    image_result.write(image_64_decode)
+
+    face_recon.classify_face('testDrive.jpg')
 
 
 def main():

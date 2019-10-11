@@ -91,6 +91,8 @@ def classify_face(im):
         print('test' + x.text)
     elif x.status_code == 502:
         print("502 Error: Can't send data to server.")
+
+    return face_names
 """""
     # Display the resulting image
     while True:
