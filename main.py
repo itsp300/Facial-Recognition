@@ -71,7 +71,11 @@ def face_rec_image(payload: Dict):
         }
     )
 
+def face_rec_identify(payload: Dict):
+    print("Something")
 
+def face_rec_detail(payload: Dict):
+    print("Detailed Info")
 
 def main():
   print("Server Started!")
