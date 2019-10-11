@@ -1,4 +1,3 @@
-import os
 import communication
 import threading
 import time
@@ -52,15 +51,25 @@ def handle_auth_timeout(payload):
 
 
 def face_rec_image(payload: Dict):
-    print("what to do when I receive this message")
-
+    print("Obtaining Facial Image Data")
     req_encode = payload['image']
     # Decode the image into temp image file
     image_64_decode = base64.decodebytes(req_encode)
     image_result = open('testDrive.jpg', 'wb')
     image_result.write(image_64_decode)
 
-    face_recon.classify_face('testDrive.jpg')
+    people = face_recon.classify_face('testDrive.jpg')
+    print("Students: " + people)
+
+    communication.request_send_jwt(
+        {
+            {
+                "type": "face_rec",
+                "students": "people",
+                "record_id": payload['record_id']
+            }
+        }
+    )
 
 
 def main():
