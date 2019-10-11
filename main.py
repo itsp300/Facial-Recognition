@@ -53,7 +53,6 @@ def handle_auth_timeout(payload):
 
 def face_rec_image(payload: Dict):
     print("what to do when I receive this message")
-    print(payload['image'])
 
     req_encode = payload['image']
     # Decode the image into temp image file

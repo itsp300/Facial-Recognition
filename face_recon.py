@@ -5,7 +5,6 @@ import cv2
 import face_recognition
 import numpy as np
 import requests
-from time import sleep
 
 
 def get_encoded_faces():
