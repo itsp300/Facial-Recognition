@@ -1,6 +1,6 @@
 import os
 from flask import Flask, request, redirect, url_for, send_from_directory
-from face_rec import face
+from face_recon import face
 import werkzeug
 
 UPLOAD_FOLDER = 'faces'
