@@ -65,11 +65,9 @@ def face_rec_image(payload: Dict):
 
     communication.request_send_jwt(
         {
-            {
-                "type": "face_rec",
-                "students": "people",
-                "record_id": payload['record_id']
-            }
+            "type": "face_rec",
+            "students": "people",
+            "record_id": payload['record_id']
         }
     )
 
