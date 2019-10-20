@@ -1,11 +1,39 @@
 import face_recognition as fr
-import base64
 import os
 import cv2
 import face_recognition
 import numpy as np
 import requests
+import sqlite3
+from datetime import datetime
+from sqlite3 import Error
 
+def create_connection(db_file):
+    """ create a database connection to the SQLite database
+        specified by db_file
+    :param db_file: database file
+    :return: Connection object or None
+    """
+    conn = None
+    try:
+        conn = sqlite3.connect(db_file)
+    except Error as e:
+        print(e)
+
+    return conn
+
+def create_record(conn, faceRecord):
+    """
+        Create a new record  into the students table
+        :param conn:
+        :param faceRecord:
+        :return: project id
+        """
+    sql = ''' INSERT INTO students(report_id,student_number,confidence, date_attended)
+                  VALUES(?,?,?,?) '''
+    cur = conn.cursor()
+    cur.execute(sql, faceRecord)
+    return cur.lastrowid
 
 def get_encoded_faces():
     """
@@ -36,7 +64,9 @@ def unknown_image_encoded(img):
     return encoding
 
 
-def classify_face(im):
+def classify_face(im, record_id):
+    dateAttended = datetime.now()
+    database = "faceStudent.db"
     """
     will find all of the faces in a given image and label
     them if it knows what they are
@@ -78,7 +108,6 @@ def classify_face(im):
             font = cv2.FONT_HERSHEY_DUPLEX
             cv2.putText(img, name, (left -20, bottom + 15), font, 1.0, (255, 255, 255), 2)
 
-    print(face_names[0])
 
     # Post data to server
     url = 'https://8080.imja.red/imageRet'
@@ -90,6 +119,14 @@ def classify_face(im):
         print('test' + x.text)
     elif x.status_code == 502:
         print("502 Error: Can't send data to server.")
+
+    # create a database connection
+    conn = create_connection(database)
+    with conn:
+        face_name = face_names[0];
+        face_record = (record_id, face_name, "16.0", dateAttended)
+        the_id = create_record(conn, face_record)
+
 
     return face_names
 """""

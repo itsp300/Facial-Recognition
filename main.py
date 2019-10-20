@@ -45,12 +45,14 @@ def use_communication_and_run():
         except KeyboardInterrupt:
             break
 
+
 # handler method, you write a bunch of these to handle different messages sent by server
 def handle_auth_timeout(payload):
     print("Auth Timeout: " + str(payload))
 
 
 def face_rec_image(payload: Dict):
+    record_id = payload['record_id']
     print("Obtaining Facial Image Data")
     req_encode = payload['image']
     # Decode the image into temp image file
@@ -71,8 +73,10 @@ def face_rec_image(payload: Dict):
         }
     )
 
+
 def face_rec_identify(payload: Dict):
     print("Something")
+
 
 def face_rec_detail(payload: Dict):
     print("Detailed Info")
@@ -94,6 +98,7 @@ def face_rec_detail(payload: Dict):
             ]
         }
     )
+
 
 def main():
   print("Server Started!")
