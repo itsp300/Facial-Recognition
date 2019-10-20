@@ -1,0 +1,32 @@
+So what I want you to do is store the image in a db, with the match + certainty, then take the pk you use to store that and send it back to me, server doesn't handle any storage of face data at all.
+
+{
+    "type": "face_rec_identifier",
+    "id": "", //some identifier you use internally
+    "record_id": "5" //the record id from the request (I provide this in my face_rec call)
+}
+
+
+Then if I want detailed info I'll send:
+
+{
+    "type": "face_rec_details",
+    "id": "", //your db pk face id
+}
+
+
+and you can respond with
+
+{
+    "type": "face_rec_details",
+    "identified":[
+    {
+        "person_id": "hc7x...",
+        "certainty": "0.8"
+    },
+    {
+        "person_id": "asdd...",
+        "certainty": "0.5"
+    }
+    ]
+}
