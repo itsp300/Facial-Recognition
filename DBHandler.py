@@ -41,9 +41,7 @@ def main():
                                         report_id text NOT NULL,
                                         student_number text NOT NULL,
                                         confidence text NOT NULL,
-                                        date_attended text NOT NULL,
-                                        FOREIGN KEY (report_id) REFERENCES report (report_id),
-                                        FOREIGN KEY (student_number) REFERENCES students (student_number)
+                                        date_attended text NOT NULL
                                     ); """
 
     sql_create_report_table = """ CREATE TABLE IF NOT EXISTS report (
@@ -55,9 +53,7 @@ def main():
 
     sql_create_student_table = """ CREATE TABLE IF NOT EXISTS students (
                                             student_number text PRIMARY KEY,
-                                            student_name text NOT NULL,
-                                            student_surname text NOT NULL,
-                                            student_course text NOT NULL
+                                            encoded_image text NOT NULL
                                         ); """
 
     # create a database connection
