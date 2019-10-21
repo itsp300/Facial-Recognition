@@ -47,7 +47,7 @@ def main():
 
     print(rowDict)
     with conn:
-        print("ALL DATA")
+        print("Selecting all Student Data")
         select_all_tasks(conn)
 
 
