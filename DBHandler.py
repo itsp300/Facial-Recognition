@@ -36,20 +36,44 @@ def create_table(conn, create_table_sql):
 def main():
     database = "faceStudent.db"
 
-    sql_create_projects_table = """ CREATE TABLE IF NOT EXISTS students (
-                                        report_id text PRIMARY KEY,
+    sql_create_attendance_table = """ CREATE TABLE IF NOT EXISTS attendance (
+                                        attendance_id text PRIMARY KEY,
+                                        report_id text NOT NULL,
                                         student_number text NOT NULL,
                                         confidence text NOT NULL,
-                                        date_attended text NOT NULL 
+                                        date_attended text NOT NULL,
+                                        FOREIGN KEY (report_id) REFERENCES report (report_id),
+                                        FOREIGN KEY (student_number) REFERENCES students (student_number)
                                     ); """
+
+    sql_create_report_table = """ CREATE TABLE IF NOT EXISTS report (
+                                            report_id text PRIMARY KEY,
+                                            confidence text NOT NULL,
+                                            identified text NOT NULL,
+                                            date_attended text NOT NULL 
+                                        ); """
+
+    sql_create_student_table = """ CREATE TABLE IF NOT EXISTS students (
+                                            student_number text PRIMARY KEY,
+                                            student_name text NOT NULL,
+                                            student_surname text NOT NULL,
+                                            student_course text NOT NULL
+                                        ); """
 
     # create a database connection
     conn = create_connection(database)
 
     # create tables
     if conn is not None:
-        # create projects table
-        create_table(conn, sql_create_projects_table)
+        # create attendance table
+        create_table(conn, sql_create_attendance_table)
+
+        # create report table
+        create_table(conn, sql_create_report_table)
+
+        # create student table
+        create_table(conn, sql_create_student_table)
+
     else:
         print("Error! cannot create the database connection.")
 
