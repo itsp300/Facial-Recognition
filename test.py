@@ -25,30 +25,35 @@ def select_all_tasks(conn):
     :return:
     """
     cur = conn.cursor()
-    cur.execute("SELECT * FROM students")
+    cur.execute("SELECT * FROM attendance")
 
     rows = cur.fetchall()
 
     for row in rows:
         print(row)
 
-
-def main():
+def face_rec_detail():
     database = "faceStudent.db"
-    face = face_recon.classify_face('testDrive.jpg', "9")
+    face = face_recon.classify_face('testDrive.jpg', "12")
     print(face)
 
     # create a database connection
     conn = create_connection(database)
     dbCursor = conn.cursor()
-    dbCursor.execute("SELECT * FROM students where report_id = '8'")
+    dbCursor.execute("SELECT * FROM attendance")
     row = dbCursor.fetchone()
     rowDict = dict(zip([c[0] for c in dbCursor.description], row))
 
     print(rowDict)
+
     with conn:
         print("Selecting all Student Data")
         select_all_tasks(conn)
+
+def main():
+    print("Face Rec Detailed:")
+    face_rec_detail()
+
 
 
 if __name__ == '__main__':

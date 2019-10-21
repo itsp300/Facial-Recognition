@@ -22,17 +22,47 @@ def create_connection(db_file):
 
     return conn
 
-def create_record(conn, faceRecord):
+
+# Create a Attendance Record
+def create_attend(conn, faceAttend):
     """
         Create a new record  into the students table
         :param conn:
-        :param faceRecord:
-        :return: project id
+        :param faceAttend:
+        :return: table id
         """
-    sql = ''' INSERT INTO students(report_id,student_number,confidence, date_attended)
+    sql = ''' INSERT INTO attendance(attendance_id,report_id,student_number,confidence, date_attended)
+                  VALUES(?,?,?,?,?) '''
+    cur = conn.cursor()
+    cur.execute(sql, faceAttend)
+    return cur.lastrowid
+
+# Create a Report Record
+def create_report(conn, faceReport):
+    """
+        Create a new record  into the students table
+        :param conn:
+        :param faceReport:
+        :return: table id
+        """
+    sql = ''' INSERT INTO report(report_id,confidence,identified,date_attended)
                   VALUES(?,?,?,?) '''
     cur = conn.cursor()
-    cur.execute(sql, faceRecord)
+    cur.execute(sql, faceReport)
+    return cur.lastrowid
+
+# Create a Student Record
+def create_student(conn, faceStudent):
+    """
+        Create a new record  into the students table
+        :param conn:
+        :param faceStudent:
+        :return: table id
+        """
+    sql = ''' INSERT INTO report(report_id,confidence,identified,date_attended)
+                  VALUES(?,?,?,?) '''
+    cur = conn.cursor()
+    cur.execute(sql, faceStudent)
     return cur.lastrowid
 
 def get_encoded_faces():
@@ -65,7 +95,7 @@ def unknown_image_encoded(img):
 
 
 def classify_face(im, record_id):
-    dateAttended = datetime.now()
+    date_attended = datetime.now()
     database = "faceStudent.db"
     """
     will find all of the faces in a given image and label
@@ -96,6 +126,7 @@ def classify_face(im, record_id):
         best_match_index = np.argmin(face_distances)
         if matches[best_match_index]:
             name = known_face_names[best_match_index]
+            print(name)
 
         face_names.append(name)
 
@@ -123,9 +154,13 @@ def classify_face(im, record_id):
     # create a database connection
     conn = create_connection(database)
     with conn:
-        face_name = face_names[0];
-        face_record = (record_id, face_name, "16.0", dateAttended)
-        the_id = create_record(conn, face_record)
+        for i in face_names:
+            attend_id = i + record_id
+            attend_record = (attend_id, record_id, i, "16.0", date_attended)
+            print(attend_record)
+            the_id = create_attend(conn, attend_record)
+
+
 
 
     return face_names
@@ -138,7 +173,6 @@ def classify_face(im, record_id):
             return face_names
 """""
 def face():
-    print(" hi")
     # Get Request
     """""
     response = requests.get('https://8080.imja.red/image')
