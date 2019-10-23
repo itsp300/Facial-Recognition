@@ -32,9 +32,38 @@ def select_all_tasks(conn):
     for row in rows:
         print(row)
 
+def select_all_report(conn):
+    """
+    Query all rows in the tasks table
+    :param conn: the Connection object
+    :return:
+    """
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM report")
+
+    rows = cur.fetchall()
+
+    for row in rows:
+        print(row)
+
+def select_all_students(conn):
+    """
+    Query all rows in the tasks table
+    :param conn: the Connection object
+    :return:
+    """
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM students")
+
+    rows = cur.fetchall()
+
+    for row in rows:
+        print(row)
+
+
 def face_rec_detail():
     database = "faceStudent.db"
-    face = face_recon.classify_face('testDrive.jpg', "12")
+    face = face_recon.classify_face('testDrive.jpg', "3")
     print(face)
 
     # create a database connection
@@ -47,8 +76,14 @@ def face_rec_detail():
     print(rowDict)
 
     with conn:
-        print("Selecting all Student Data")
+        print("Selecting all Attendance Data")
         select_all_tasks(conn)
+        print("-----------------------------------")
+        print("Selecting all Reports")
+        select_all_report(conn)
+        print("----------------------------------")
+        print("Selecting all Students")
+        select_all_students(conn)
 
 def main():
     print("Face Rec Detailed:")

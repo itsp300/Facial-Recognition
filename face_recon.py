@@ -3,8 +3,8 @@ import os
 import cv2
 import face_recognition
 import numpy as np
-import requests
 import sqlite3
+import pickle
 from datetime import datetime
 from sqlite3 import Error
 
@@ -45,8 +45,9 @@ def create_report(conn, faceReport):
         :param faceReport:
         :return: table id
         """
-    sql = ''' INSERT INTO report(report_id,confidence,identified,date_attended)
-                  VALUES(?,?,?,?) '''
+    sql = ''' INSERT INTO report(report_id,identified,date_attended)
+                  VALUES(?,?,?) '''
+    print("Report " + sql)
     cur = conn.cursor()
     cur.execute(sql, faceReport)
     return cur.lastrowid
@@ -61,6 +62,7 @@ def create_student(conn, faceStudent):
         """
     sql = ''' INSERT INTO report(report_id,confidence,identified,date_attended)
                   VALUES(?,?,?,?) '''
+
     cur = conn.cursor()
     cur.execute(sql, faceStudent)
     return cur.lastrowid
@@ -139,29 +141,38 @@ def classify_face(im, record_id):
             font = cv2.FONT_HERSHEY_DUPLEX
             cv2.putText(img, name, (left -20, bottom + 15), font, 1.0, (255, 255, 255), 2)
 
-
-    # Post data to server
-    url = 'https://8080.imja.red/imageRet'
-    myobj = {'student': face_names[0]}
-    x = requests.post(url, json=myobj)
-
-    if x.status_code == 200:
-        # print the response text (the content of the requested file):
-        print('test' + x.text)
-    elif x.status_code == 502:
-        print("502 Error: Can't send data to server.")
-
+    ident =[]
     # create a database connection
     conn = create_connection(database)
     with conn:
         for i in face_names:
             attend_id = i + record_id
             attend_record = (attend_id, record_id, i, "16.0", date_attended)
+            therecords = {
+                "person_id": i,
+                "certainty": 10
+            }
+
+            ident.append(therecords)
             print(attend_record)
             the_id = create_attend(conn, attend_record)
 
+        report_record = (record_id, ident, date_attended)
+        # therecordid = create_report(conn, report_record)
+
+        report_config = {
+            "type": "face_rec_details",
+            "identified": ident
+        }
+
+        print("Report Config File Information:")
+        print("---------------------------------")
+        print(report_config)
+
+        with open()
 
 
+    print(ident)
 
     return face_names
 """""
