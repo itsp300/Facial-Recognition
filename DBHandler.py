@@ -46,8 +46,7 @@ def main():
 
     sql_create_report_table = """ CREATE TABLE IF NOT EXISTS report (
                                             report_id text PRIMARY KEY,
-                                            confidence text NOT NULL,
-                                            identified text NOT NULL,
+                                            identified blob NOT NULL,
                                             date_attended text NOT NULL 
                                         ); """
 
