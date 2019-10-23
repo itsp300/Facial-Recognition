@@ -8,6 +8,8 @@ import pickle
 from datetime import datetime
 from sqlite3 import Error
 
+
+# Database Connection
 def create_connection(db_file):
     """ create a database connection to the SQLite database
         specified by db_file
@@ -85,6 +87,11 @@ def get_encoded_faces():
 
     return encoded
 
+def convertToBinaryData(filename):
+    #Convert digital data to binary format
+    with open(filename, 'rb') as file:
+        blobData = file.read()
+    return blobData
 
 def unknown_image_encoded(img):
     """
@@ -157,8 +164,6 @@ def classify_face(im, record_id):
             print(attend_record)
             the_id = create_attend(conn, attend_record)
 
-        report_record = (record_id, ident, date_attended)
-        # therecordid = create_report(conn, report_record)
 
         report_config = {
             "type": "face_rec_details",
@@ -177,6 +182,12 @@ def classify_face(im, record_id):
 
         print(unserialized_data)
         print(unserialized_data == report_config)
+
+        report_convert = convertToBinaryData('report.pickle')
+
+        report_record = (record_id, report_convert, date_attended)
+        therecordid = create_report(conn, report_record)
+
 
 
     print(ident)
