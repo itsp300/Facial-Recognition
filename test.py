@@ -63,7 +63,7 @@ def select_all_students(conn):
 
 def face_rec_detail():
     database = "faceStudent.db"
-    face = face_recon.classify_face('testDrive.jpg', "3")
+    face = face_recon.classify_face('testDrive.jpg', "7")
     print(face)
 
     # create a database connection

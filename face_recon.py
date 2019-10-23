@@ -169,7 +169,14 @@ def classify_face(im, record_id):
         print("---------------------------------")
         print(report_config)
 
-        with open()
+        with open('report.pickle','wb') as handle:
+            pickle.dump(report_config,handle,protocol=pickle.HIGHEST_PROTOCOL)
+
+        with open('report.pickle','rb') as handle:
+            unserialized_data = pickle.load(handle)
+
+        print(unserialized_data)
+        print(unserialized_data == report_config)
 
 
     print(ident)
