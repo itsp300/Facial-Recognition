@@ -4,6 +4,11 @@ from sqlite3 import Error
 import pickle
 
 report_num = ""
+
+def convertTuple(tup):
+    str = ''.join(tup)
+    return str
+
 def create_connection(db_file):
     """ create a database connection to the SQLite database
         specified by the db_file
@@ -26,12 +31,55 @@ def select_all_tasks(conn):
     :return:
     """
     cur = conn.cursor()
-    cur.execute("SELECT * FROM attendance")
+    cur.execute("SELECT student_number FROM attendance")
 
     rows = cur.fetchall()
-
+    print(rows)
     for row in rows:
         print(row)
+
+def create_the_statement(conn):
+    """
+    Query all rows in the tasks table
+    :param conn: the Connection object
+    :return:
+    """
+    student_number =[]
+    att_confidence =[]
+    identified=[]
+    cur = conn.cursor()
+    cur.execute("SELECT student_number FROM attendance WHERE report_id =" +report_num)
+    students = cur.fetchall()
+
+    for student in students:
+        stud = convertTuple(student)
+        student_number.append(stud)
+
+    print(student_number)
+
+    cur.execute("SELECT confidence FROM attendance WHERE report_id =" + report_num)
+    confidence = cur.fetchall()
+
+    for con in confidence:
+        conf = convertTuple(con)
+        att_confidence.append(conf)
+
+    print(att_confidence)
+
+    counter = 0
+    for person in student_number:
+        therecords = {
+            "person_id": person,
+            "certainty": att_confidence[counter]
+        }
+        identified.append(therecords)
+
+    report_config = {
+        "type": "face_rec_details",
+        "identified": identified
+    }
+
+    return report_config
 
 def select_all_report(conn):
     """
@@ -57,7 +105,7 @@ def select_all_students(conn):
     cur.execute("SELECT * FROM students")
 
     rows = cur.fetchall()
-
+    print(rows)
     for row in rows:
         print(row)
 
@@ -65,7 +113,7 @@ def select_all_students(conn):
 def face_rec_detail():
     database = "faceStudent.db"
     global report_num
-    report_num = "60"
+    report_num = "69"
     face = face_recon.classify_face('testDrive.jpg', report_num)
     print(face)
 
@@ -75,6 +123,7 @@ def face_rec_detail():
     dbCursor.execute("SELECT * FROM attendance where report_id = 3")
     row = dbCursor.fetchone()
     rowDict = dict(zip([c[0] for c in dbCursor.description], row))
+
 
     print(rowDict)
 
@@ -87,6 +136,9 @@ def face_rec_detail():
         print("----------------------------------")
         print("Selecting all Students")
         select_all_students(conn)
+        print("Certain Students: ")
+        check = create_the_statement(conn)
+        print(check)
 
 
 def checkconfig():
@@ -111,7 +163,7 @@ def thecheck():
 def main():
     print("Face Rec Detailed:")
     face_rec_detail()
-    checkconfig()
+    # checkconfig()
 
 
 

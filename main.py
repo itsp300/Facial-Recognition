@@ -4,12 +4,119 @@ import time
 import ssl
 import base64
 import face_recon
+import sqlite3
+from sqlite3 import Error
 from typing import Dict
 
 
 debug = True
 ws = None
+report_num = ""
+database = "faceStudent.db"
 
+def convertTuple(tup):
+    str = ''.join(tup)
+    return str
+
+def create_connection(db_file):
+    """ create a database connection to the SQLite database
+        specified by the db_file
+    :param db_file: database file
+    :return: Connection object or None
+    """
+    conn = None
+    try:
+        conn = sqlite3.connect(db_file)
+    except Error as e:
+        print(e)
+
+    return conn
+
+
+def select_all_tasks(conn):
+    """
+    Query all rows in the tasks table
+    :param conn: the Connection object
+    :return:
+    """
+    cur = conn.cursor()
+    cur.execute("SELECT student_number FROM attendance")
+
+    rows = cur.fetchall()
+    print(rows)
+    for row in rows:
+        print(row)
+
+def create_the_statement(conn):
+    """
+    Query all rows in the tasks table
+    :param conn: the Connection object
+    :return:
+    """
+    student_number =[]
+    att_confidence =[]
+    identified=[]
+    cur = conn.cursor()
+    cur.execute("SELECT student_number FROM attendance WHERE report_id =" +report_num)
+    students = cur.fetchall()
+
+    for student in students:
+        stud = convertTuple(student)
+        student_number.append(stud)
+
+    print(student_number)
+
+    cur.execute("SELECT confidence FROM attendance WHERE report_id =" + report_num)
+    confidence = cur.fetchall()
+
+    for con in confidence:
+        conf = convertTuple(con)
+        att_confidence.append(conf)
+
+    print(att_confidence)
+
+    counter = 0
+    for person in student_number:
+        therecords = {
+            "person_id": person,
+            "certainty": att_confidence[counter]
+        }
+        identified.append(therecords)
+
+    report_config = {
+        "type": "face_rec_details",
+        "identified": identified
+    }
+
+    return report_config
+
+def select_all_report(conn):
+    """
+    Query all rows in the tasks table
+    :param conn: the Connection object
+    :return:
+    """
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM report")
+
+    rows = cur.fetchall()
+
+    for row in rows:
+        print(row)
+
+def select_all_students(conn):
+    """
+    Query all rows in the tasks table
+    :param conn: the Connection object
+    :return:
+    """
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM students")
+
+    rows = cur.fetchall()
+    print(rows)
+    for row in rows:
+        print(row)
 
 def debug_log(message):
     if debug:
@@ -52,16 +159,14 @@ def handle_auth_timeout(payload):
 
 
 def face_rec_image(payload: Dict):
-    record_id = payload['record_id']
+    global report_num
+    report_num = payload['record_id']
     print("Obtaining Facial Image Data")
     req_encode = payload['image']
     # Decode the image into temp image file
     image_64_decode = base64.decodebytes(req_encode)
     image_result = open('testDrive.jpg', 'wb')
     image_result.write(image_64_decode)
-
-    people = face_recon.classify_face('testDrive.jpg')
-    print("Students: " + people)
 
     communication.request_send_jwt(
         {
@@ -73,7 +178,10 @@ def face_rec_image(payload: Dict):
 
 
 def face_rec_identify(payload: Dict):
-    print("Something")
+    print("Identifying People")
+    people = face_recon.classify_face('testDrive.jpg', report_num)
+    print('Students Identified:')
+    print(people)
 
 
 def face_rec_detail(payload: Dict):
