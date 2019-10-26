@@ -186,23 +186,19 @@ def face_rec_identify(payload: Dict):
 
 def face_rec_detail(payload: Dict):
     print("Detailed Info")
+    global report_num
+    report_num = payload["id"]
 
-    id = payload["id"]
-    
+    # create a database connection
+    conn = create_connection(database)
+
+    with conn:
+        print('Obtaining Attendance Data')
+        statement = create_the_statement(conn)
+
+
     communication.request_send_jwt(
-        {
-            "type": "face_rec_details",
-            "identified": [
-                {
-                    "person_id": "RJMMLYX21",
-                    "certainty": "56"
-                },
-                {
-                    "person_id": "PR3C56TY",
-                    "certainty": "56"
-                }
-            ]
-        }
+        statement
     )
 
 
