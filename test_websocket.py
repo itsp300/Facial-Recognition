@@ -12,9 +12,11 @@ debug = True
 report_num = ""
 database = "faceStudent.db"
 
-def convertTuple(tup):
+
+def convert_tuple(tup):
     str = ''.join(tup)
     return str
+
 
 def create_connection(db_file):
     """ create a database connection to the SQLite database
@@ -45,6 +47,7 @@ def select_all_tasks(conn):
     for row in rows:
         print(row)
 
+
 def create_the_statement(conn):
     """
     Query all rows in the tasks table
@@ -59,7 +62,7 @@ def create_the_statement(conn):
     students = cur.fetchall()
 
     for student in students:
-        stud = convertTuple(student)
+        stud = convert_tuple(student)
         student_number.append(stud)
 
     print(student_number)
@@ -68,7 +71,7 @@ def create_the_statement(conn):
     confidence = cur.fetchall()
 
     for con in confidence:
-        conf = convertTuple(con)
+        conf = convert_tuple(con)
         att_confidence.append(conf)
 
     print(att_confidence)
@@ -80,6 +83,7 @@ def create_the_statement(conn):
             "certainty": att_confidence[counter]
         }
         identified.append(therecords)
+        counter = counter +1
 
     report_config = {
         "type": "face_rec_details",
@@ -87,6 +91,7 @@ def create_the_statement(conn):
     }
 
     return report_config
+
 
 def select_all_report(conn):
     """
@@ -102,6 +107,7 @@ def select_all_report(conn):
     for row in rows:
         print(row)
 
+
 def select_all_students(conn):
     """
     Query all rows in the tasks table
@@ -115,6 +121,7 @@ def select_all_students(conn):
     print(rows)
     for row in rows:
         print(row)
+
 
 def debug_log(message):
     print("Debug")
@@ -154,6 +161,7 @@ def use_communication_and_run():
         except KeyboardInterrupt:
             break
 
+
 # handler method, you write a bunch of these to handle different messages sent by server
 def handle_auth_timeout(payload):
     print("Auth Timeout: " + str(payload))
@@ -180,17 +188,18 @@ def face_rec_image(payload: Dict):
 
 
 def face_rec_identify(payload: Dict):
-  print("Identify")
-  people = face_recon.classify_face('testDrive.jpg', report_num)
-  print('Students Identified:')
-  print(people)
+      print("Identify")
+      print(payload)
+      people = face_recon.classify_face('testDrive.jpg', report_num)
+      print('Students Identified:')
+      print(people)
 
-  communication.request_send_jwt(
-      {
-          "id": report_num,
-          "type": "face_rec_identifier"
-      }
-  )
+      communication.request_send_jwt(
+          {
+              "id": report_num,
+              "type": "face_rec_identifier"
+          }
+      )
 
 
 def face_rec_detail(payload: Dict):
@@ -205,10 +214,10 @@ def face_rec_detail(payload: Dict):
         print('Obtaining Attendance Data')
         statement = create_the_statement(conn)
 
-
     communication.request_send_jwt(
         statement
     )
+
 
 def main():
   print("Server Started!")
@@ -218,7 +227,7 @@ def main():
   communication.register_message_type("face_rec_identifier", face_rec_identify)
   communication.register_message_type("face_rec_details", face_rec_detail)
 
-    # good place to start the facial recognition thread(s), or you could spawn them in the message handlers just above this line
+  # good place to start the facial recognition thread(s), or you could spawn them in the message handlers just above this line
   # start queue thread
   use_communication_queue_thread()
   # start websocket - code will never run past here since .run_forever blocks infinitely

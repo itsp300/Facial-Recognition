@@ -71,7 +71,7 @@ def create_the_statement(conn):
             "certainty": att_confidence[counter]
         }
         identified.append(therecords)
-        counter+1
+        counter = counter+1
 
     report_config = {
         "type": "face_rec_details",
@@ -112,7 +112,7 @@ def select_all_students(conn):
 def face_rec_detail():
     database = "faceStudent.db"
     global report_num
-    report_num = "89"
+    report_num = "93"
     face = face_recon.classify_face('testDrive.jpg', report_num)
     print(face)
 
@@ -156,14 +156,14 @@ def checkconfig():
 
     print(unserialized_data)
 
+
 def thecheck():
     print(report_num)
+
 
 def main():
     print("Face Rec Detailed:")
     face_rec_detail()
-    # checkconfig()
-
 
 
 if __name__ == '__main__':

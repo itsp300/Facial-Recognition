@@ -87,8 +87,9 @@ def get_encoded_faces():
 
     return encoded
 
+
 def convertToBinaryData(filename):
-    #Convert digital data to binary format
+    # Convert digital data to binary format
     with open(filename, 'rb') as file:
         blobData = file.read()
     return blobData
@@ -152,21 +153,27 @@ def classify_face(im, record_id):
 
     ident =[]
     confidence = []
+    confidence.append("1")
+    confidence.append("2")
+    confidence.append("3")
+    confidence.append("4")
+
     # create a database connection
     conn = create_connection(database)
     with conn:
+        counter=0
         for i in face_names:
             attend_id = i + record_id
-            attend_record = (attend_id, record_id, i, "16.0", date_attended)
-            therecords = {
+            attend_record = (attend_id, record_id, i, confidence[counter], date_attended)
+            the_records = {
                 "person_id": i,
-                "certainty": 10
+                "certainty": confidence[counter]
             }
 
-            ident.append(therecords)
+            ident.append(the_records)
             print(attend_record)
-            the_id = create_attend(conn, attend_record)
-
+            counter = counter+1
+            create_attend(conn, attend_record)
 
         report_config = {
             "type": "face_rec_details",
@@ -189,9 +196,7 @@ def classify_face(im, record_id):
         report_convert = convertToBinaryData('report.pickle')
 
         report_record = (record_id, report_convert, date_attended)
-        therecordid = create_report(conn, report_record)
-
-
+        create_report(conn, report_record)
 
     print(ident)
 
