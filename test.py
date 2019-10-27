@@ -34,7 +34,6 @@ def select_all_tasks(conn):
     cur.execute("SELECT student_number FROM attendance")
 
     rows = cur.fetchall()
-    print(rows)
     for row in rows:
         print(row)
 
@@ -55,7 +54,6 @@ def create_the_statement(conn):
         stud = convertTuple(student)
         student_number.append(stud)
 
-    print(student_number)
 
     cur.execute("SELECT confidence FROM attendance WHERE report_id =" + report_num)
     confidence = cur.fetchall()
@@ -73,6 +71,7 @@ def create_the_statement(conn):
             "certainty": att_confidence[counter]
         }
         identified.append(therecords)
+        counter+1
 
     report_config = {
         "type": "face_rec_details",
@@ -113,7 +112,7 @@ def select_all_students(conn):
 def face_rec_detail():
     database = "faceStudent.db"
     global report_num
-    report_num = "69"
+    report_num = "89"
     face = face_recon.classify_face('testDrive.jpg', report_num)
     print(face)
 

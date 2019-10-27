@@ -119,11 +119,13 @@ def select_all_students(conn):
         print(row)
 
 def debug_log(message):
+    print("Debug")
     if debug:
         print("[Main]" + str(message))
 
 
 def start_queue_handler():
+    print("Start Queue Handler")
     while True:
         time.sleep(0.3) # artificial wait to prevent spamming cpu time checking, change as desired
         if not communication.request_queue.empty():
@@ -139,11 +141,13 @@ def start_queue_handler():
  
 
 def use_communication_queue_thread():
+    print("Use communication queue thread")
     queue_thread = threading.Thread(target=start_queue_handler)
     queue_thread.start()
     
     
 def use_communication_and_run():
+    print("Use communication and run")
     global ws
     while True:
         try:
