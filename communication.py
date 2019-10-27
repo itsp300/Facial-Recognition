@@ -9,7 +9,7 @@ import websocket
 websocket_message_types = {}  # type: Dict[AnyStr, Callable]
 websocket_access_token = ""  # type: AnyStr
 request_queue = queue.Queue()
-debug = False
+debug = True
 communication_version = "1"
 
 
