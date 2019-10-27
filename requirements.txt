@@ -3,3 +3,4 @@ dlib
 face_recognition
 numpy
 opencv-python
+websocket_client
