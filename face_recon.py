@@ -129,10 +129,12 @@ def classify_face(im, record_id):
         # See if the face is a match for the known face(s)
         matches = face_recognition.compare_faces(faces_encoded, face_encoding)
         name = "Unknown"
+        print(matches)
 
         # use the known face with the smallest distance to the new face
         face_distances = face_recognition.face_distance(faces_encoded, face_encoding)
         best_match_index = np.argmin(face_distances)
+        print(best_match_index)
         if matches[best_match_index]:
             name = known_face_names[best_match_index]
             print(name)
@@ -149,6 +151,7 @@ def classify_face(im, record_id):
             cv2.putText(img, name, (left -20, bottom + 15), font, 1.0, (255, 255, 255), 2)
 
     ident =[]
+    confidence = []
     # create a database connection
     conn = create_connection(database)
     with conn:

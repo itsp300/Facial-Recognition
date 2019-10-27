@@ -67,6 +67,7 @@ def start_websocket():
 
 
 def websocket_open(ws):
+    print("Web Socket Open")
     debug_log("Websocket Open")
     auth_message = {
         'access_token': ensure_valid(websocket_access_token),
