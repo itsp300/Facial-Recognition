@@ -54,20 +54,6 @@ def create_report(conn, faceReport):
     cur.execute(sql, faceReport)
     return cur.lastrowid
 
-# Create a Student Record
-def create_student(conn, faceStudent):
-    """
-        Create a new record  into the students table
-        :param conn:
-        :param faceStudent:
-        :return: table id
-        """
-    sql = ''' INSERT INTO report(report_id,confidence,identified,date_attended)
-                  VALUES(?,?,?,?) '''
-
-    cur = conn.cursor()
-    cur.execute(sql, faceStudent)
-    return cur.lastrowid
 
 def get_encoded_faces():
     """

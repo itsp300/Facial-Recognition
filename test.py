@@ -1,8 +1,9 @@
 import face_recon
 import sqlite3
 from sqlite3 import Error
-import pickle
-
+import ast
+import base64
+from typing import Dict
 report_num = ""
 
 def convertTuple(tup):
@@ -112,15 +113,15 @@ def select_all_students(conn):
 def face_rec_detail():
     database = "faceStudent.db"
     global report_num
-    report_num = "93"
+    report_num = "3"
     face = face_recon.classify_face('testDrive.jpg', report_num)
     print(face)
 
     # create a database connection
     conn = create_connection(database)
     dbCursor = conn.cursor()
-    dbCursor.execute("SELECT * FROM attendance where report_id = 3")
-    row = dbCursor.fetchone()
+    dbCursor.execute("SELECT * FROM attendance")
+    row = dbCursor.fetchall()
     rowDict = dict(zip([c[0] for c in dbCursor.description], row))
 
 
@@ -141,27 +142,51 @@ def face_rec_detail():
 
 
 def checkconfig():
-    print("Do Something")
-    database = "faceStudent.db"
-    conn = create_connection(database)
-    dbCur = conn.cursor()
-    dbCur.execute("SELECT identified FROM report WHERE report_id=?", (report_num,))
-    fileget = dbCur.fetchone()
+    d={
+        "name": "love"
+    }
 
-    image_result = open('check.pickle', 'wb')
-    image_result.write(fileget[0])
+    print(d)
+    for k, v in d.items():
+        if v[0] == '{' and v[-1] == '}':
+            d[k] = ast.literal_eval(v)
 
-    with open('check.pickle', 'rb') as handle:
-        unserialized_data = pickle.load(handle)
-
-    print(unserialized_data)
+    print(d)
 
 
-def thecheck():
-    print(report_num)
+def face_rec(payload:Dict):
+    print("Obtaining Facial Image Data")
+    global report_num
+    print(payload)
+    report_num = payload['record_id']
+    req_encode = payload['image']
+    # Decode the image into temp image file
+    image_64_decode = base64.decodebytes(req_encode)
+    image_result = open('testDrive.jpg', 'wb')
+    image_result.write(image_64_decode)
+
+    communication = {
+            "type": "face_rec",
+            "students": "people",
+            "record_id": payload['record_id']
+        }
+
+    return communication
+
 
 
 def main():
+    # Encode the image
+    image = open('testDrive.jpg', 'rb')
+    image_read = image.read()
+    image_64_encode = base64.encodebytes(image_read)
+    com = {
+        "record_id": "1",
+        "image": image_64_encode
+    }
+
+
+    print(com)
     print("Face Rec Detailed:")
     face_rec_detail()
 
