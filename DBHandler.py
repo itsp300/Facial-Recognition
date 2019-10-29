@@ -52,7 +52,9 @@ def main():
 
     sql_create_student_table = """ CREATE TABLE IF NOT EXISTS students (
                                             student_number text PRIMARY KEY,
-                                            encoded_image text NOT NULL
+                                            first_name text NOT NULL,
+                                            surname text NOT NULL,
+                                            file_name text NOT NULL
                                         ); """
 
     # create a database connection
