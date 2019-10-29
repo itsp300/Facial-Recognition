@@ -171,8 +171,8 @@ def face_rec_image(payload: Dict):
     print("Obtaining Facial Image Data")
     global report_num
     report_num = payload['record_id']
-    print("Obtaining Facial Image Data")
     req_encode = payload['image']
+    req_encode = bytes(req_encode, 'utf-8')
     # Decode the image into temp image file
     image_64_decode = base64.decodebytes(req_encode)
     image_result = open('testDrive.jpg', 'wb')
@@ -181,8 +181,7 @@ def face_rec_image(payload: Dict):
     communication.request_send_jwt(
         {
             "type": "face_rec",
-            "students": "people",
-            "record_id": payload['record_id']
+            "success": "True"
         }
     )
 
