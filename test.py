@@ -8,7 +8,7 @@ report_num = ""
 def face_rec_detail():
     database = "faceStudent.db"
     global report_num
-    report_num = "100"
+    report_num = "108"
     face = face_recon.classify_face('testDrive.jpg', report_num)
     print(face)
 
