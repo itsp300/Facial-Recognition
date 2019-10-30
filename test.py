@@ -113,7 +113,7 @@ def select_all_students(conn):
 def face_rec_detail():
     database = "faceStudent.db"
     global report_num
-    report_num = "3"
+    report_num = "8"
     face = face_recon.classify_face('testDrive.jpg', report_num)
     print(face)
 
@@ -186,7 +186,7 @@ def main():
     }
 
 
-    print(com)
+    # print(com)
     print("Face Rec Detailed:")
     face_rec_detail()
 
