@@ -1,8 +1,9 @@
 import face_recognition as fr
 import os
 import pickle
-import base64
 
+
+# Train the Data
 def get_encoded_faces():
     """
     looks through the faces folder and encodes all
@@ -19,15 +20,6 @@ def get_encoded_faces():
                 encoding = fr.face_encodings(face)[0]
                 encoded[f.split(".")[0]] = encoding
     print("Faces Encoded")
-    return encoded
-
-def main():
-    encode = get_encoded_faces()
-    print("Before")
-    print(encode)
+    print(encoded)
     with open("pickles/face.pickle", 'wb') as f:
-        pickle.dump(encode, f)
-
-
-if __name__ == '__main__':
-    main()
+        pickle.dump(encoded, f)

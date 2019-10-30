@@ -1,5 +1,6 @@
 import os
 import Database
+import encode
 from flask import Flask, flash, request, redirect, url_for, render_template
 from werkzeug.utils import secure_filename
 
@@ -47,5 +48,6 @@ def upload_file():
 
             filename = secure_filename(the_file_name)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            encode.get_encoded_faces()
             return redirect(url_for('upload_file', filename=filename))
     return render_template("index.html")
