@@ -14,13 +14,30 @@ def create_connection(db_file):
     :param db_file: database file
     :return: Connection object or None
     """
+
+    print("Creating a connection to the database")
     conn = None
     try:
+        print("Connection Created!")
         conn = sqlite3.connect(db_file)
     except Error as e:
         print(e)
 
     return conn
+
+
+# Creates tables in the database
+def create_table(conn, create_table_sql):
+    """ create a table from the create_table_sql statement
+    :param conn: Connection object
+    :param create_table_sql: a CREATE TABLE statement
+    :return:
+    """
+    try:
+        c = conn.cursor()
+        c.execute(create_table_sql)
+    except Error as e:
+        print(e)
 
 
 # Create a Attendance Record
@@ -121,11 +138,11 @@ def create_the_statement(conn, report_num):
 
     counter = 0
     for person in student_number:
-        therecords = {
+        the_records = {
             "person_id": person,
             "certainty": att_confidence[counter]
         }
-        identified.append(therecords)
+        identified.append(the_records)
         counter = counter +1
 
     report_config = {
