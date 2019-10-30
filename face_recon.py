@@ -3,56 +3,9 @@ import os
 import cv2
 import face_recognition
 import numpy as np
-import sqlite3
+import Database
 import pickle
 from datetime import datetime
-from sqlite3 import Error
-
-
-# Database Connection
-def create_connection(db_file):
-    """ create a database connection to the SQLite database
-        specified by db_file
-    :param db_file: database file
-    :return: Connection object or None
-    """
-    conn = None
-    try:
-        conn = sqlite3.connect(db_file)
-    except Error as e:
-        print(e)
-
-    return conn
-
-
-# Create a Attendance Record
-def create_attend(conn, faceAttend):
-    """
-        Create a new record  into the students table
-        :param conn:
-        :param faceAttend:
-        :return: table id
-        """
-    sql = ''' INSERT INTO attendance(attendance_id,report_id,student_number,confidence, date_attended)
-                  VALUES(?,?,?,?,?) '''
-    cur = conn.cursor()
-    cur.execute(sql, faceAttend)
-    return cur.lastrowid
-
-# Create a Report Record
-def create_report(conn, faceReport):
-    """
-        Create a new record  into the students table
-        :param conn:
-        :param faceReport:
-        :return: table id
-        """
-    sql = ''' INSERT INTO report(report_id,identified,date_attended)
-                  VALUES(?,?,?) '''
-    print("Report " + sql)
-    cur = conn.cursor()
-    cur.execute(sql, faceReport)
-    return cur.lastrowid
 
 
 def get_encoded_faces():
@@ -70,15 +23,17 @@ def get_encoded_faces():
                 face = fr.load_image_file("faces/" + f)
                 encoding = fr.face_encodings(face)[0]
                 encoded[f.split(".")[0]] = encoding
-
+    print("Faces Encoded")
+    print(encoded)
     return encoded
 
 
-def convertToBinaryData(filename):
+def convert_to_binary_data(filename):
     # Convert digital data to binary format
     with open(filename, 'rb') as file:
-        blobData = file.read()
-    return blobData
+        blob_data = file.read()
+    return blob_data
+
 
 def unknown_image_encoded(img):
     """
@@ -137,15 +92,11 @@ def classify_face(im, record_id):
             font = cv2.FONT_HERSHEY_DUPLEX
             cv2.putText(img, name, (left -20, bottom + 15), font, 1.0, (255, 255, 255), 2)
 
-    ident =[]
-    confidence = []
-    confidence.append("1")
-    confidence.append("2")
-    confidence.append("3")
-    confidence.append("4")
+    ident = []
+    confidence = ["1", "2", "3", "4"]
 
     # create a database connection
-    conn = create_connection(database)
+    conn = Database.create_connection(database)
     with conn:
         counter=0
         for i in face_names:
@@ -159,7 +110,7 @@ def classify_face(im, record_id):
             ident.append(the_records)
             print(attend_record)
             counter = counter+1
-            create_attend(conn, attend_record)
+            Database.create_attend(conn, attend_record)
 
         report_config = {
             "type": "face_rec_details",
@@ -179,10 +130,10 @@ def classify_face(im, record_id):
         print(unserialized_data)
         print(unserialized_data == report_config)
 
-        report_convert = convertToBinaryData('report.pickle')
+        report_convert = convert_to_binary_data('report.pickle')
 
         report_record = (record_id, report_convert, date_attended)
-        create_report(conn, report_record)
+        Database.create_report(conn, report_record)
 
     print(ident)
 
@@ -195,6 +146,7 @@ def classify_face(im, record_id):
         if cv2.waitKey(1) & 0xFF == ord('q'):
             return face_names
 """""
+
 def face():
     # Get Request
     """""
