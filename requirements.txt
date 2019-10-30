@@ -6,3 +6,4 @@ opencv-python
 websocket_client
 flask
 werkzeug
+jwt
