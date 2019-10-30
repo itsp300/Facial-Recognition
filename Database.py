@@ -106,6 +106,37 @@ def select_all_students(conn):
         print(row)
 
 
+# Select all records from Table Attendances
+def select_all_tasks(conn):
+    """
+    Query all rows in the tasks table
+    :param conn: the Connection object
+    :return:
+    """
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM attendance")
+
+    rows = cur.fetchall()
+    for row in rows:
+        print(row)
+
+
+# Select All Records from Table Reports
+def select_all_report(conn):
+    """
+    Query all rows in the tasks table
+    :param conn: the Connection object
+    :return:
+    """
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM report")
+
+    rows = cur.fetchall()
+
+    for row in rows:
+        print(row)
+
+
 # Creates the Json Statement to return to main Server
 def create_the_statement(conn, report_num):
     """
