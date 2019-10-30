@@ -34,18 +34,21 @@ def create_connection(db_file):
 
 
 # Create a Student Record
-def create_student(conn, faceStudent):
+def create_student(conn, student_data):
     """
         Create a new record  into the students table
         :param conn:
-        :param faceStudent:
+        :param student_data:
         :return: table id
         """
-    sql = ''' INSERT INTO students(student_number, first_name, surname, file_name)
-                  VALUES(?,?,?,?) '''
+    try:
+        sql = ''' INSERT INTO students(student_number, first_name, surname, file_name)
+                      VALUES(?,?,?,?) '''
 
-    cur = conn.cursor()
-    cur.execute(sql, faceStudent)
+        cur = conn.cursor()
+        cur.execute(sql, student_data)
+    except Error as e:
+        print(e)
     return cur.lastrowid
 
 
