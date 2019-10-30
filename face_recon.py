@@ -36,6 +36,7 @@ def convert_to_binary_data(filename):
 
 
 def unknown_image_encoded(img):
+    print("this is a check of one")
     """
     encode a face given the file name
     """
@@ -55,7 +56,11 @@ def classify_face(im, record_id):
     :param im: str of file path
     :return: list of face names
     """
-    faces = get_encoded_faces()
+
+    # Reads trained data from pickle file
+    with open("pickles/face.pickle", 'rb') as f:
+        faces = pickle.load(f)
+
     faces_encoded = list(faces.values())
     known_face_names = list(faces.keys())
 
