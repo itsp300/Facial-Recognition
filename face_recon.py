@@ -76,7 +76,6 @@ def classify_face(im, record_id):
             font = cv2.FONT_HERSHEY_DUPLEX
             cv2.putText(img, name, (left -20, bottom + 15), font, 1.0, (255, 255, 255), 2)
 
-    ident = []
     confidence = ["1", "2", "3", "4"]
 
     # create a database connection
@@ -86,40 +85,9 @@ def classify_face(im, record_id):
         for i in face_names:
             attend_id = i + record_id
             attend_record = (attend_id, record_id, i, confidence[counter], date_attended)
-            the_records = {
-                "person_id": i,
-                "certainty": confidence[counter]
-            }
-
-            ident.append(the_records)
             print(attend_record)
             counter = counter+1
             Database.create_attend(conn, attend_record)
-
-        report_config = {
-            "type": "face_rec_details",
-            "identified": ident
-        }
-
-        print("Report Config File Information:")
-        print("---------------------------------")
-        print(report_config)
-
-        with open('report.pickle','wb') as handle:
-            pickle.dump(report_config,handle,protocol=pickle.HIGHEST_PROTOCOL)
-
-        with open('report.pickle','rb') as handle:
-            unserialized_data = pickle.load(handle)
-
-        print(unserialized_data)
-        print(unserialized_data == report_config)
-
-        report_convert = convert_to_binary_data('report.pickle')
-
-        report_record = (record_id, report_convert, date_attended)
-        Database.create_report(conn, report_record)
-
-    print(ident)
 
     return face_names
 """""

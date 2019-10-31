@@ -20,11 +20,12 @@ def allowed_file(filename):
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
-        # Check if the post request has a file part
+        # Collect Data
         name = request.form.get('firstName')
         surname = request.form.get('surname')
         student_number = request.form.get('number')
 
+        # Check if the post request has a file part
         if 'file' not in request.files:
             flash('No file Part')
             return render_template("index.html")
@@ -45,9 +46,10 @@ def upload_file():
                 Database.select_all_students(conn)
 
             conn.close()
-
             filename = secure_filename(the_file_name)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+            # Train Face Data
             encode.get_encoded_faces()
             return redirect(url_for('upload_file', filename=filename))
     return render_template("index.html")
