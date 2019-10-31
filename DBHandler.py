@@ -12,12 +12,6 @@ def main():
                                         date_attended text NOT NULL
                                     ); """
 
-    sql_create_report_table = """ CREATE TABLE IF NOT EXISTS report (
-                                            report_id text PRIMARY KEY,
-                                            identified blob NOT NULL,
-                                            date_attended text NOT NULL 
-                                        ); """
-
     sql_create_student_table = """ CREATE TABLE IF NOT EXISTS students (
                                             student_number text PRIMARY KEY,
                                             first_name text NOT NULL,
@@ -32,9 +26,6 @@ def main():
     if conn is not None:
         # create attendance table
         Database.create_table(conn, sql_create_attendance_table)
-
-        # create report table
-        Database.create_table(conn, sql_create_report_table)
 
         # create student table
         Database.create_table(conn, sql_create_student_table)

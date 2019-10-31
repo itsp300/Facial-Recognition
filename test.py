@@ -8,7 +8,7 @@ report_num = ""
 def face_rec_detail():
     database = "faceStudent.db"
     global report_num
-    report_num = "108"
+    report_num = "2"
     face = face_recon.classify_face('testDrive.jpg', report_num)
     print(face)
 
@@ -25,9 +25,6 @@ def face_rec_detail():
         print("Selecting all Attendance Data")
         Database.select_all_tasks(conn)
         print("-----------------------------------")
-        print("Selecting all Reports")
-        Database.select_all_report(conn)
-        print("----------------------------------")
         print("Selecting all Students")
         Database.select_all_students(conn)
         print("Certain Students: ")
@@ -56,16 +53,6 @@ def face_rec(payload:Dict):
 
 
 def main():
-    # Encode the image
-    image = open('testDrive.jpg', 'rb')
-    image_read = image.read()
-    image_64_encode = base64.encodebytes(image_read)
-    com = {
-        "record_id": "1",
-        "image": image_64_encode
-    }
-
-    # print(com)
     print("Face Rec Detailed:")
     face_rec_detail()
 

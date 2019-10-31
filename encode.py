@@ -23,3 +23,6 @@ def get_encoded_faces():
     print(encoded)
     with open("pickles/face.pickle", 'wb') as f:
         pickle.dump(encoded, f)
+
+if __name__ == '__main__':
+    get_encoded_faces()
